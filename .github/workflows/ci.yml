@@ -60,3 +60,9 @@ jobs:
             -archivePath "build/Swiftfin.xcarchive" \
             -destination "generic/platform=tvOS" \
             CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+            
+      - name: Upload Archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: Swiftfin-tvOS.xcarchive
+          path: build/Swiftfin.xcarchive
