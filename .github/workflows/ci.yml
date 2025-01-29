@@ -53,14 +53,25 @@ jobs:
       #     key: ${{ runner.os }}-${{ matrix.scheme }}-spm-${{ hashFiles('**/Package.resolved') }}
       #     restore-keys: ${{ runner.os }}-${{ matrix.scheme }}-spm-
 
-      - name: Build
-        uses: nick-fields/retry@v2
-        with:
-          max_attempts: 3
-          retry_on: error
-          timeout_minutes: 60
-          command: |
-            xcodebuild build -project "Swiftfin.xcodeproj" \
+      - name: Archive
+        run: |
+          xcodebuild archive \
+            -project "Swiftfin.xcodeproj" \
             -scheme "${{ matrix.scheme }}" \
-            -clonedSourcePackagesDirPath PackageCache \
+            -archivePath "build/Swiftfin.xcarchive" \
+            -destination "generic/platform=tvOS" \
             CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+
+      - name: Export IPA
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath "build/Swiftfin.xcarchive" \
+            -exportPath "build" \
+            -exportOptionsPlist ExportOptions.plist
+            
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Swiftfin-tvOS.ipa
+          path: build/Swiftfin.ipa
+
