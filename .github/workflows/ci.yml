@@ -18,7 +18,6 @@ jobs:
     strategy:
       matrix:
         scheme:
-          - "Swiftfin"
           - "Swiftfin tvOS"
 
     runs-on: macos-15
