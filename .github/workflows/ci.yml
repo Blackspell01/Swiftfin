@@ -61,17 +61,3 @@ jobs:
             -archivePath "build/Swiftfin.xcarchive" \
             -destination "generic/platform=tvOS" \
             CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
-
-      - name: Export IPA
-        run: |
-          xcodebuild -exportArchive \
-            -archivePath "build/Swiftfin.xcarchive" \
-            -exportPath "build" \
-            -exportOptionsPlist ExportOptions.plist
-            
-      - name: Upload IPA
-        uses: actions/upload-artifact@v4
-        with:
-          name: Swiftfin-tvOS.ipa
-          path: build/Swiftfin.ipa
-
